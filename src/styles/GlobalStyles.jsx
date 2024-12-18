@@ -17,6 +17,7 @@ const GlobalStyles = createGlobalStyle`
       padding: 0;
       list-style: none;
       font-style: none;
+      font-family: "Roboto", "Source Sans 3", serif;
      }
 
   html {

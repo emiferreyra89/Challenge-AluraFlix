@@ -13,10 +13,10 @@ export default function AppRoutes() {
       <GlobalStyles />
         <BrowserRouter>
           <Header />
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/form" element={<FormNewVideo />} />
-          </Routes>
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/form" element={<FormNewVideo />} />
+            </Routes>
           <Footer />
         </BrowserRouter>
     </ThemeProvider>

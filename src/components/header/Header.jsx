@@ -30,7 +30,7 @@ const Buttons = styled.li`
     border: 2px solid #fff;
     border-radius: 10px;
     padding: 5px 0;
-    /* font-family: var(--font-Source); */
+    font-family: ${(props) => props.theme.fonts.sourceSans};;
     font-size: 20px;
     font-weight: bold;
     text-transform: uppercase;
