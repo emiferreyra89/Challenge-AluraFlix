@@ -2,6 +2,7 @@ import styled from "styled-components";
 
 const CardContainer = styled.article`
   width: 440px;
+  height: 380px;
   display: flex;
   flex-direction: column;
   color: var(--white-button);
@@ -10,6 +11,23 @@ const CardContainer = styled.article`
   font-weight: 800;
   text-transform: uppercase;
   position: relative;
+  flex: 0 0 auto;
+  figure {
+      width: 100%;
+    }
+    img {
+      width: 100%;
+    }
+  @media (max-width: 767px) {
+    width: 320px;
+    height: 320px;
+    figure {
+      width: 100%;
+    }
+    img {
+      width: 100%;
+    }
+  }
 `;
 const CardIconsBox = styled.div`
   width: 440px;
@@ -41,6 +59,10 @@ const CardIconsBox = styled.div`
   button:hover {
     border-radius: 10px;
     box-shadow: inset 0px 0px 5px 1px ${(props) => props.theme.colors.primaryWhite};
+  }
+  @media (max-width: 767px) {
+    width: 320px;
+    top: 195px;
   }
 `;
 

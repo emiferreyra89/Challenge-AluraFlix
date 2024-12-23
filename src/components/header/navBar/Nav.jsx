@@ -1,9 +1,7 @@
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 
-const NavContainer = styled.nav`
-position: relative; /* Asegura que los elementos estén sobre la capa negra */
-z-index: 3;
+export const NavContainer = styled.nav`
   width: 100%;
   height: 125px;
   padding: 30px;
@@ -19,7 +17,7 @@ z-index: 3;
   }
 `;
 
-const Lista = styled.ul`
+export const Lista = styled.ul`
   display: flex;
   gap: 25px;
 `;
@@ -53,19 +51,19 @@ const Buttons = styled.li`
 export default function NavBar() {
   return (
     <>
-        <NavContainer>
-          <figure>
-            <img src="/img/logo-alurafix.png" alt="Logo Alurafix" />
-          </figure>
-          <Lista>
-            <Buttons>
-              <Link to="/">Home</Link>
-            </Buttons>
-            <Buttons>
-              <Link to="/form">Nuevo Video</Link>
-            </Buttons>
-          </Lista>
-        </NavContainer>
+      <NavContainer>
+        <figure>
+          <img src="/img/logo-alurafix.png" alt="Logo Alurafix" />
+        </figure>
+        <Lista>
+          <Buttons>
+            <Link to="/">Home</Link>
+          </Buttons>
+          <Buttons>
+            <Link to="/form">Nuevo Video</Link>
+          </Buttons>
+        </Lista>
+      </NavContainer>
     </>
   );
 }

@@ -1,17 +1,7 @@
 import { createGlobalStyle } from "styled-components";
 
 const GlobalStyles = createGlobalStyle`
-  /* @font-face {
-    font-family:  "nombre_de_la_fuente";
-    src: local("Gandhi Sans Regular"), local("nombre_de_la_fuente"), url(nombre_de_la_fuente);
-  }
-
-  @font-face {
-    font-family:  "nombre_de_la_fuente";
-    src: local("Gandhi Sans Bold"), local("nombre_de_la_fuente"), url(nombre_de_la_fuente);
-  } */
-
-    *{
+  *{
       box-sizing: border-box;
       margin: 0;
       padding: 0;
@@ -163,6 +153,16 @@ const GlobalStyles = createGlobalStyle`
     }
     [hidden] {
       display: none;
+    }
+    ::-webkit-scrollbar {
+      height: 15px !important;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #2271D1;
+      border-radius: 20px;
+    }
+    ::-webkit-scrollbar-track {
+      background: rgba(34, 113, 209, 0.2); /* Fondo del track */
     }
 `;
 
