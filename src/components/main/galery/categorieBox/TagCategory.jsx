@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import styled from "styled-components";
 
 const Tag = styled.div`
@@ -6,8 +7,8 @@ const Tag = styled.div`
   margin-bottom: 20px;
   border-radius: 15px;
   background-color: ${(props) => props.theme.colors.greenCards};
-  color:  ${(props) => props.theme.colors.primaryWhite};
-  font-size: 32px;
+  color: ${(props) => props.theme.colors.primaryWhite};
+  font-size: x-large;
   font-weight: 800;
   text-transform: uppercase;
   display: flex;
@@ -15,18 +16,18 @@ const Tag = styled.div`
   align-items: center;
   @media (max-width: 767px) {
     width: 100%;
+    font-size: large;
   }
   @media (max-width: 1439px) {
-    margin: 0 auto 20px
+    margin: 0 auto 20px;
   }
 `;
 
-// eslint-disable-next-line react/prop-types
-export default function TagCategorie({props}) {
+export default function TagCategorie({ categoria }) {
   return (
     <>
-      <Tag>
-      <h2>{props}</h2>
+      <Tag style={{ backgroundColor: `${categoria.color}` }}>
+        <h2>{categoria.categoria}</h2>
       </Tag>
     </>
   );

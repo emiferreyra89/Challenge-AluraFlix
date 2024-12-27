@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import styled from "styled-components";
 
 const CardContainer = styled.article`
@@ -13,11 +14,11 @@ const CardContainer = styled.article`
   position: relative;
   flex: 0 0 auto;
   figure {
-      width: 100%;
-    }
-    img {
-      width: 100%;
-    }
+    width: 100%;
+  }
+  img {
+    width: 100%;
+  }
   @media (max-width: 767px) {
     width: 320px;
     height: 320px;
@@ -53,12 +54,13 @@ const CardIconsBox = styled.div`
     gap: 20px;
     padding: 10px;
     color: ${(props) => props.theme.colors.primaryWhite};
-    border:none;
+    border: none;
     cursor: pointer;
   }
   button:hover {
     border-radius: 10px;
-    box-shadow: inset 0px 0px 5px 1px ${(props) => props.theme.colors.primaryWhite};
+    box-shadow: inset 0px 0px 5px 1px
+      ${(props) => props.theme.colors.primaryWhite};
   }
   @media (max-width: 767px) {
     width: 320px;
@@ -66,15 +68,19 @@ const CardIconsBox = styled.div`
   }
 `;
 
-export default function Card() {
+export default function Card(props) {
+  const {video, categoria} = props.data;
+
   return (
     <>
       <CardContainer class="card">
         <figure>
-          <img src="/img/image-video-1.png" alt="Curso de Innovación - Video 1" />
+          <img src={`${video.imagen}`} alt={`${video.titulo}`} />
         </figure>
-        <CardIconsBox>
-          <button aria-label="Eliminar video" onClick={()=>alert("HOLA...!!!")}>
+        <CardIconsBox style={{ borderColor: `${categoria.color}` }}>
+          <button
+            aria-label="Eliminar video"
+            onClick={() => alert("HOLA...!!!")}>
             <img src="/icon-delete.png" alt="Borrar" /> Borrar
           </button>
           <button aria-label="Editar video">
