@@ -36,7 +36,7 @@ export default function CategorieBox(props) {
             <TagCategory categoria={categoria} />
             <BoxCards>
               {videos.map((video, index) =>
-                video.categoria === categoria.categoria ? (
+                video.categoria.toLowerCase() === categoria.categoria.toLowerCase() ? (
                   <>
                     <Card data={{video,categoria}} key={index} />
                   </>

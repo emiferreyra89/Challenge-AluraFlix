@@ -4,8 +4,6 @@ import Galery from "../components/main/galery/Galery.jsx";
 import { useMediaQuery } from "@mui/material";
 
 const MainContainer = styled.main`
-  /* height: 100%;
-  width: 100%; */
   margin: 150px 0px;
 `;
 
