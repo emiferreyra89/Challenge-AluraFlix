@@ -10,6 +10,7 @@ import {
   InputLabel,
   FormControl,
 } from "@mui/material";
+import { useState } from "react";
 
 const MainContainer = styled.main`
   height: 100%;
@@ -37,6 +38,45 @@ const Form = styled.form`
 
 export default function FormVideo() {
   const categorias = ["Frontend", "Backend", "Innovacion y Gestion"]; // Opciones de ejemplo
+  const [formValues, setFormValues] = useState({
+    titulo: "",
+    categoria: "Seleccione una categoria",
+    imagen: "",
+    video: "",
+    descripcion: "",
+  });
+
+  function changeValueInput(event) {
+    const { name, value } = event.target;
+    setFormValues({...formValues, [name]: value});
+  }
+
+  function formSubmit(event) {
+    event.preventDefault();
+    fetch("http://localhost:3000/videos", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(formValues),
+    });
+    setFormValues({
+      titulo: "",
+      categoria: "",
+      imagen: "",
+      video: "",
+      descripcion: "",
+    });
+  }
+
+  function formClean(event) {
+    event.preventDefault();
+    setFormValues({
+      titulo: "",
+      categoria: "",
+      imagen: "",
+      video: "",
+      descripcion: "",
+    });
+  }
 
   return (
     <>
@@ -77,8 +117,8 @@ export default function FormVideo() {
                 variant="outlined"
                 placeholder="Ingrese el título"
                 name="titulo"
-                value=""
-                onChange=""
+                value={formValues.titulo}
+                onChange={changeValueInput}
                 InputLabel="Titulo"
                 sx={{
                   width: "90%",
@@ -100,8 +140,8 @@ export default function FormVideo() {
               <FormControl fullWidth margin="normal" variant="outlined">
                 <Select
                   name="categoria"
-                  value={"Selecciona una categoria"}
-                  onChange=""
+                  value={formValues.categoria}
+                  onChange={changeValueInput}
                   sx={{
                     width: "90%",
                     color: "#fff",
@@ -134,8 +174,8 @@ export default function FormVideo() {
                 variant="outlined"
                 placeholder="Ingrese el enlace de la imagen"
                 name="imagen"
-                value=""
-                onChange=""
+                value={formValues.imagen}
+                onChange={changeValueInput}
                 error=""
                 helperText=""
                 sx={{
@@ -161,8 +201,8 @@ export default function FormVideo() {
                 variant="outlined"
                 placeholder="Ingrese el enlace del video"
                 name="video"
-                value=""
-                onChange=""
+                value={formValues.video}
+                onChange={changeValueInput}
                 sx={{
                   width: "90%",
                   input: { color: "#fff" },
@@ -186,8 +226,8 @@ export default function FormVideo() {
                 variant="outlined"
                 placeholder="¿De qué se trata este video?"
                 name="descripcion"
-                value=""
-                onChange=""
+                value={formValues.descripcion}
+                onChange={changeValueInput}
                 multiline
                 rows={4}
                 sx={{
@@ -213,6 +253,7 @@ export default function FormVideo() {
               <Button
                 type="submit"
                 variant="outlined"
+                onClick = {formSubmit}
                 sx={{
                   width: "180px",
                   padding: "8px",
@@ -229,7 +270,7 @@ export default function FormVideo() {
                 GUARDAR
               </Button>
               <Button
-                onClick={() => {}}
+                onClick={for}
                 type="reset"
                 variant="outlined"
                 sx={{
