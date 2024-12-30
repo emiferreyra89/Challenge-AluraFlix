@@ -270,7 +270,7 @@ export default function FormVideo() {
                 GUARDAR
               </Button>
               <Button
-                onClick={for}
+                onClick={formClean}
                 type="reset"
                 variant="outlined"
                 sx={{
