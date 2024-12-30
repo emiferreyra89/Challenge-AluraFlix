@@ -1,5 +1,6 @@
 /* eslint-disable react/prop-types */
 import styled from "styled-components";
+import { useData } from "../../../../context/DataContext";
 
 const CardContainer = styled.article`
   width: 440px;
@@ -70,7 +71,7 @@ const CardIconsBox = styled.div`
 
 export default function Card(props) {
   const {video, categoria} = props.data;
-
+  const {deleteCards} = useData();
   return (
     <>
       <CardContainer class="card">
@@ -80,7 +81,7 @@ export default function Card(props) {
         <CardIconsBox style={{ borderColor: `${categoria.color}` }}>
           <button
             aria-label="Eliminar video"
-            onClick={() => alert("HOLA...!!!")}>
+            onClick={() => deleteCards(video.id)}>
             <img src="/icon-delete.png" alt="Borrar" /> Borrar
           </button>
           <button aria-label="Editar video">

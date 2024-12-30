@@ -1,7 +1,7 @@
-/* eslint-disable react/prop-types */
 import styled from "styled-components";
-import TagCategory from "./TagCategory";
+import { useData } from "../../../../context/DataContext.jsx";
 import Card from "./Cards";
+import TagCategory from "./TagCategory";
 
 const CategorieBoxContainer = styled.section`
   /* margin-bottom: 150px; */
@@ -10,7 +10,7 @@ const CategorieBoxContainer = styled.section`
 const BoxCards = styled.div`
   display: grid;
   column-gap: 30px;
-  row-gap: 100px;
+  row-gap: 30px;
   grid-template-columns: repeat(3, auto);
   margin: 40px auto;
 
@@ -25,8 +25,8 @@ const BoxCards = styled.div`
   }
 `;
 
-export default function CategorieBox(props) {
-  const { categorias, videos } = props.data;
+export default function CategorieBox() {
+  const { categorias, videos } = useData();
 
   return (
     <>
@@ -36,9 +36,10 @@ export default function CategorieBox(props) {
             <TagCategory categoria={categoria} />
             <BoxCards>
               {videos.map((video, index) =>
-                video.categoria.toLowerCase() === categoria.categoria.toLowerCase() ? (
+                video.categoria.toLowerCase() ===
+                categoria.categoria.toLowerCase() ? (
                   <>
-                    <Card data={{video,categoria}} key={index} />
+                    <Card data={{ video, categoria }} key={index} />
                   </>
                 ) : (
                   ""

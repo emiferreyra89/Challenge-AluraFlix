@@ -1,53 +1,101 @@
 {
   "categorias": [
     {
-      "id": 1,
+      "id": "1",
       "categoria": "frontend",
       "color": "#6BD1FF"
     },
     {
-      "id": 2,
+      "id": "2",
       "categoria": "backend",
       "color": "#00C86F"
     },
     {
-      "id": 3,
+      "id": "3",
       "categoria": "innovacion y gestion",
       "color": "#FFBA05"
     }
   ],
   "videos": [
     {
-      "id": 1,
-      "titulo": "Conoce el mundo Front",
+      "id": "1",
+      "titulo": "Cuando usar LET, VAR y CONST?",
       "categoria": "frontend",
       "imagen": "/img/image-video-front_1.png",
       "video": "",
-      "descripcion": "Navega en el fascinante mundo de la programacion web desde su enfoque FrontEnd"
+      "descripcion": ""
     },
     {
-      "id": 2,
-      "titulo": "Conoce el mundo Back",
+      "id": "2",
+      "titulo": "Que es JavaScript?",
+      "categoria": "frontend",
+      "imagen": "/img/image-video-front_2.png",
+      "video": "",
+      "descripcion": ""
+    },
+    {
+      "id": "3",
+      "titulo": "Equipo FrontEnd",
+      "categoria": "frontend",
+      "imagen": "/img/image-video-front_3.png",
+      "video": "",
+      "descripcion": ""
+    },
+    {
+      "id": "4",
+      "titulo": "Spring Framework",
       "categoria": "backend",
       "imagen": "/img/image-video-back_1.png",
       "video": "",
-      "descripcion": "Navega en el fascinante mundo de la programacion web desde su enfoque BackEnd"
+      "descripcion": ""
     },
     {
-      "id": 3,
-      "titulo": "Estrategias para innovar y gestionar",
-      "categoria": "innovacion y gestion",
-      "imagen": "/img/image-video-inov_gest_1.png",
-      "video": "",
-      "descripcion": "Navega en el fascinante mundo de la innovacion y gestion de servicios Webs"
-    },
-    {
-      "id": 4,
-      "titulo": "Conoce el mundo Back",
+      "id": "5",
+      "titulo": "Que es SQL y NoSQL?",
       "categoria": "backend",
       "imagen": "/img/image-video-back_2.png",
       "video": "",
-      "descripcion": "Navega en el fascinante mundo de la programacion web desde su enfoque BackEnd"
+      "descripcion": ""
+    },
+    {
+      "id": "6",
+      "titulo": "Simplificando codigo en JAVA: ENUM",
+      "categoria": "backend",
+      "imagen": "/img/image-video-back_3.png",
+      "video": "",
+      "descripcion": ""
+    },
+    {
+      "id": "7",
+      "titulo": "Que son las Soft Skills?",
+      "categoria": "innovacion y gestion",
+      "imagen": "/img/image-video-inov_gest_1.png",
+      "video": "",
+      "descripcion": ""
+    },
+    {
+      "id": "8",
+      "titulo": "Las 7 Soft Skills mas deseadas",
+      "categoria": "innovacion y gestion",
+      "imagen": "/img/image-video-inov_gest_2.png",
+      "video": "",
+      "descripcion": ""
+    },
+    {
+      "id": "9",
+      "titulo": "Metodologias Agiles",
+      "categoria": "innovacion y gestion",
+      "imagen": "/img/image-video-inov_gest_3.png",
+      "video": "",
+      "descripcion": ""
+    },
+    {
+      "id": "10",
+      "titulo": "Metodologias Agiles",
+      "categoria": "innovacion y gestion",
+      "imagen": "/img/image-video-inov_gest_3.png",
+      "video": "",
+      "descripcion": ""
     }
   ]
 }

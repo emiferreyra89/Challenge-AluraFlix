@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import CategorieBox from "./categorieBox/CategorieBox";
-import { useState, useEffect } from "react";
 
 const GaleryContainer = styled.section`
   width: 100%;
@@ -16,29 +15,10 @@ const GaleryContainer = styled.section`
 `;
 
 export default function Galery() {
-  const [categorias, setCategorias] = useState([]);
-  const [videos, setVideos] = useState([]);
-
-  useEffect(()=>{
-    async function conectionData() {
-      const categoriasResponse = await fetch("http://localhost:3000/categorias")
-      const dataCategorias = await categoriasResponse.json()
-
-      const videosResponse = await fetch("http://localhost:3000/videos")
-      const dataVideos = await videosResponse.json()
-
-      setCategorias(dataCategorias)
-      setVideos(dataVideos)
-    }
-
-    conectionData()
-  
-  },[])
-
   return (
     <>
       <GaleryContainer>
-        <CategorieBox data={{ categorias, videos }}></CategorieBox>
+        <CategorieBox />
       </GaleryContainer>
     </>
   );
