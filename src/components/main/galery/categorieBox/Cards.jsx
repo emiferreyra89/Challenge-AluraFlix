@@ -71,7 +71,7 @@ const CardIconsBox = styled.div`
 
 export default function Card(props) {
   const {video, categoria} = props.data;
-  const {deleteCards} = useData();
+  const {deleteCards, setVideoCardEdit} = useData();
   return (
     <>
       <CardContainer class="card">
@@ -84,7 +84,9 @@ export default function Card(props) {
             onClick={() => deleteCards(video.id)}>
             <img src="/icon-delete.png" alt="Borrar" /> Borrar
           </button>
-          <button aria-label="Editar video">
+          <button 
+            aria-label="Editar video"
+            onClick={()=>{setVideoCardEdit(true)}}>
             <img src="/icon-update.png" alt="Editar" /> Editar
           </button>
         </CardIconsBox>

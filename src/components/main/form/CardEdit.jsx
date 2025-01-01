@@ -10,6 +10,7 @@ import {
   InputLabel,
   FormControl,
 } from "@mui/material";
+import { useData } from "../../../context/DataContext";
 
 const MainContainer = styled.main`
   height: 100%;
@@ -38,7 +39,7 @@ const ButonClose = styled.button`
   align-items: center;
   cursor: pointer;
   &:hover {
-    background-color: #00c8ff;
+    background-color: rgba(0, 200, 255, 0.5);
   }
   img {
     width: 100%;
@@ -52,6 +53,7 @@ const ButonClose = styled.button`
 
 export default function CardEdit() {
   const categorias = ["Frontend", "Backend", "Innovacion y Gestion"]; // Opciones de ejemplo
+  const {setVideoCardEdit} = useData();
 
   return (
     <>
@@ -74,7 +76,7 @@ export default function CardEdit() {
               marginTop: "10px",
               margin: "auto",
             }}>
-            <ButonClose>
+            <ButonClose onClick={()=>{setVideoCardEdit(false)}}>
               <img src="/icon-close-form.png" alt="Icono Cerrar Formulario" />
             </ButonClose>
           </Box>

@@ -1,4 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react";
+import CardEdit from "../components/main/form/CardEdit";
 
 const DataContext = createContext();
 
@@ -6,6 +7,7 @@ const DataContext = createContext();
 export const DataProvider = ({children}) => {
   const [categorias, setCategorias] = useState([]);
   const [videos, setVideos] = useState([]);
+  const [videoCardEdit, setVideoCardEdit] = useState(false)
 
   useEffect(()=>{
     async function conectionData() {
@@ -37,8 +39,9 @@ export const DataProvider = ({children}) => {
     }
   }
 
+  
   return (
-    <DataContext.Provider value={{categorias, videos, deleteCards}}>
+    <DataContext.Provider value={{categorias, videos, deleteCards, videoCardEdit,setVideoCardEdit}}>
       {children}
     </DataContext.Provider>
   )
