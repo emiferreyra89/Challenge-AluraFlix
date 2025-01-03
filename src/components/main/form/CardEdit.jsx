@@ -70,13 +70,27 @@ export default function CardEdit() {
     descripcion: videoCardEdit.descripcion,
   });
 
+  function cutFileName(path) {
+    return path.split("/").pop();
+  };
+
   function changeValueInput(event) {
     const { name, value } = event.target;
     setFormEditValues({ ...formEditValues, [name]: value });
   }
 
+  function changeFileInput(event) {
+    const file = event.target.files[0];
+    if (file) {
+      setFormEditValues({ ...formEditValues, imagen: file.name });
+    }
+  }
+
   async function formEditSubmit(event) {
     event.preventDefault();
+    const {imagen} = formEditValues
+    formEditValues.imagen = `/img/${imagen}`
+    
     const response = await fetch(
       `http://localhost:3000/videos/${videoCardEdit.id}`,
       {
@@ -214,7 +228,7 @@ export default function CardEdit() {
                 variant="outlined"
                 placeholder="Ingrese el enlace de la imagen"
                 name="imagen"
-                value={formEditValues.imagen}
+                value={cutFileName(formEditValues.imagen)}
                 onChange={changeValueInput}
                 error=""
                 helperText=""
@@ -227,6 +241,12 @@ export default function CardEdit() {
                     borderRadius: "10px",
                   },
                 }}
+              />
+              <input
+                type="file"
+                accept="image/*"
+                onChange={changeFileInput}
+                style={{ color: "#666" }}
               />
             </Box>
             {/* Video */}

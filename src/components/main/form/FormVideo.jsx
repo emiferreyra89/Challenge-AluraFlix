@@ -52,8 +52,18 @@ export default function FormVideo() {
     setFormValues({ ...formValues, [name]: value });
   }
 
+  function changeFileInput(event) {
+    const file = event.target.files[0];
+    if (file) {
+      setFormValues({ ...formValues, imagen: file.name });
+    }
+  }
+
   async function formSubmit(event) {
     event.preventDefault();
+    const {imagen} = formValues
+    formValues.imagen = `/img/${imagen}`
+
     const response = await fetch("http://localhost:3000/videos", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -164,10 +174,13 @@ export default function FormVideo() {
                 fullWidth
                 margin="normal"
                 variant="outlined"
-                placeholder="Ingrese el enlace de la imagen"
+                placeholder="Ingrese la imagen del video"
                 name="imagen"
                 value={formValues.imagen}
                 onChange={changeValueInput}
+                InputProps={{
+                  readOnly: true,
+                }}
                 error=""
                 helperText=""
                 sx={{
@@ -176,6 +189,12 @@ export default function FormVideo() {
                   label: { color: "#999" },
                   fieldset: { borderColor: "#666", borderRadius: "10px" },
                 }}
+              />
+              <input
+                type="file"
+                accept="image/*"
+                onChange={changeFileInput}
+                style={{ color: "#666" }}
               />
             </Box>
             {/* Video */}
