@@ -37,7 +37,7 @@ export default function CategorieBox() {
             <BoxCards>
               {videos.map((video, index) =>
                 video.categoria.toLowerCase() ===
-                categoria.categoria.toLowerCase() ? (
+                categoria.nombre.toLowerCase() ? (
                   <>
                     <Card data={{ video, categoria }} key={index} />
                   </>

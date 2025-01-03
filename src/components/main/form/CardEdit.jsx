@@ -11,6 +11,7 @@ import {
   FormControl,
 } from "@mui/material";
 import { useData } from "../../../context/DataContext";
+import { useState } from "react";
 
 const MainContainer = styled.main`
   height: 100%;
@@ -52,8 +53,49 @@ const ButonClose = styled.button`
 `;
 
 export default function CardEdit() {
-  const categorias = ["Frontend", "Backend", "Innovacion y Gestion"]; // Opciones de ejemplo
-  const {setVideoCardEdit} = useData();
+  const {
+    categorias,
+    videoCardEdit,
+    setVideoCardEdit,
+    videos,
+    setVideos,
+    formClean,
+  } = useData();
+  
+  const [formEditValues, setFormEditValues] = useState({
+    titulo: videoCardEdit.titulo,
+    categoria: videoCardEdit.categoria,
+    imagen: videoCardEdit.imagen,
+    video: videoCardEdit.video,
+    descripcion: videoCardEdit.descripcion,
+  });
+
+  function changeValueInput(event) {
+    const { name, value } = event.target;
+    setFormEditValues({ ...formEditValues, [name]: value });
+  }
+
+  async function formEditSubmit(event) {
+    event.preventDefault();
+    const response = await fetch(
+      `http://localhost:3000/videos/${videoCardEdit.id}`,
+      {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formEditValues),
+      }
+    );
+
+    if (response.ok) {
+      const updatedCard = await response.json();
+      const newList = videos.map((video) => {
+        return video.id === updatedCard.id ? updatedCard : video;
+      });
+      setVideos(newList);
+    }
+
+    setVideoCardEdit(false);
+  }
 
   return (
     <>
@@ -76,7 +118,10 @@ export default function CardEdit() {
               marginTop: "10px",
               margin: "auto",
             }}>
-            <ButonClose onClick={()=>{setVideoCardEdit(false)}}>
+            <ButonClose
+              onClick={() => {
+                setVideoCardEdit(false);
+              }}>
               <img src="/icon-close-form.png" alt="Icono Cerrar Formulario" />
             </ButonClose>
           </Box>
@@ -108,8 +153,8 @@ export default function CardEdit() {
                 variant="outlined"
                 placeholder="Ingrese el título"
                 name="titulo"
-                value=""
-                onChange=""
+                value={formEditValues.titulo}
+                onChange={changeValueInput}
                 InputLabel="Titulo"
                 sx={{
                   width: "100%",
@@ -134,8 +179,9 @@ export default function CardEdit() {
               <FormControl fullWidth margin="normal" variant="outlined">
                 <Select
                   name="categoria"
-                  value={"Selecciona una categoria"}
-                  onChange=""
+                  value={formEditValues.categoria.toLowerCase()}
+                  onChange={changeValueInput}
+                  displayEmpty
                   sx={{
                     width: "100%",
                     color: "#fff",
@@ -145,12 +191,9 @@ export default function CardEdit() {
                       borderRadius: "10px",
                     },
                   }}>
-                  <MenuItem value="">
-                    <em>Seleccione una categoría</em>
-                  </MenuItem>
                   {categorias.map((cat, index) => (
-                    <MenuItem key={index} value={cat}>
-                      {cat}
+                    <MenuItem key={index} value={cat.nombre.toLowerCase()}>
+                      {cat.nombre}
                     </MenuItem>
                   ))}
                 </Select>
@@ -171,8 +214,8 @@ export default function CardEdit() {
                 variant="outlined"
                 placeholder="Ingrese el enlace de la imagen"
                 name="imagen"
-                value=""
-                onChange=""
+                value={formEditValues.imagen}
+                onChange={changeValueInput}
                 error=""
                 helperText=""
                 sx={{
@@ -201,8 +244,8 @@ export default function CardEdit() {
                 variant="outlined"
                 placeholder="Ingrese el enlace del video"
                 name="video"
-                value=""
-                onChange=""
+                value={formEditValues.video}
+                onChange={changeValueInput}
                 sx={{
                   width: "100%",
                   input: { color: "#fff" },
@@ -229,8 +272,8 @@ export default function CardEdit() {
                 variant="outlined"
                 placeholder="¿De qué se trata este video?"
                 name="descripcion"
-                value=""
-                onChange=""
+                value={formEditValues.descripcion}
+                onChange={changeValueInput}
                 multiline
                 rows={4}
                 sx={{
@@ -260,6 +303,7 @@ export default function CardEdit() {
               <Button
                 type="submit"
                 variant="outlined"
+                onClick={formEditSubmit}
                 sx={{
                   width: "180px",
                   padding: "8px",
@@ -276,7 +320,9 @@ export default function CardEdit() {
                 GUARDAR
               </Button>
               <Button
-                onClick={() => {}}
+                onClick={() => {
+                  formClean(setFormEditValues);
+                }}
                 type="reset"
                 variant="outlined"
                 sx={{

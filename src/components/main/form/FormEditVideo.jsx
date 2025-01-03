@@ -18,7 +18,7 @@ const Dialog = styled.dialog`
   overflow-y: scroll;
   margin: auto;
   background-color: #03122f;
-  border: 5px solid #6BD1FF;
+  border: 5px solid #6bd1ff;
   border-radius: 15px;
   @media (min-width: 1044px) {
     overflow-y: unset;

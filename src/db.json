@@ -2,28 +2,28 @@
   "categorias": [
     {
       "id": "1",
-      "categoria": "frontend",
+      "nombre": "Frontend",
       "color": "#6BD1FF"
     },
     {
       "id": "2",
-      "categoria": "backend",
+      "nombre": "Backend",
       "color": "#00C86F"
     },
     {
       "id": "3",
-      "categoria": "innovacion y gestion",
+      "nombre": "Innovacion y Gestion",
       "color": "#FFBA05"
     }
   ],
   "videos": [
     {
-      "id": "1",
       "titulo": "Cuando usar LET, VAR y CONST?",
       "categoria": "frontend",
       "imagen": "/img/image-video-front_1.png",
       "video": "",
-      "descripcion": ""
+      "descripcion": "",
+      "id": "1"
     },
     {
       "id": "2",
@@ -34,12 +34,12 @@
       "descripcion": ""
     },
     {
-      "id": "3",
       "titulo": "Equipo FrontEnd",
       "categoria": "frontend",
       "imagen": "/img/image-video-front_3.png",
       "video": "",
-      "descripcion": ""
+      "descripcion": "",
+      "id": "3"
     },
     {
       "id": "4",
@@ -94,6 +94,22 @@
       "titulo": "Metodologias Agiles",
       "categoria": "innovacion y gestion",
       "imagen": "/img/image-video-inov_gest_3.png",
+      "video": "",
+      "descripcion": ""
+    },
+    {
+      "id": "3d44",
+      "titulo": "Diseno UX/UI",
+      "categoria": "Frontend",
+      "imagen": "/img/image-video-front_1.png",
+      "video": "",
+      "descripcion": ""
+    },
+    {
+      "id": "5d19",
+      "titulo": "Json-Server o BD?",
+      "categoria": "Backend",
+      "imagen": "../img/image-video-back_2.png",
       "video": "",
       "descripcion": ""
     }

@@ -11,6 +11,7 @@ import {
   FormControl,
 } from "@mui/material";
 import { useState } from "react";
+import { useData } from "../../../context/DataContext";
 
 const MainContainer = styled.main`
   height: 100%;
@@ -37,10 +38,10 @@ const Form = styled.form`
 `;
 
 export default function FormVideo() {
-  const categorias = ["Frontend", "Backend", "Innovacion y Gestion"]; // Opciones de ejemplo
+  const { categorias, setVideos, formClean } = useData();
   const [formValues, setFormValues] = useState({
     titulo: "",
-    categoria: "Seleccione una categoria",
+    categoria: "",
     imagen: "",
     video: "",
     descripcion: "",
@@ -48,34 +49,24 @@ export default function FormVideo() {
 
   function changeValueInput(event) {
     const { name, value } = event.target;
-    setFormValues({...formValues, [name]: value});
+    setFormValues({ ...formValues, [name]: value });
   }
 
-  function formSubmit(event) {
+  async function formSubmit(event) {
     event.preventDefault();
-    fetch("http://localhost:3000/videos", {
+    const response = await fetch("http://localhost:3000/videos", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(formValues),
     });
-    setFormValues({
-      titulo: "",
-      categoria: "",
-      imagen: "",
-      video: "",
-      descripcion: "",
-    });
-  }
 
-  function formClean(event) {
-    event.preventDefault();
-    setFormValues({
-      titulo: "",
-      categoria: "",
-      imagen: "",
-      video: "",
-      descripcion: "",
-    });
+    if (response.ok) {
+      const apiVideos = await fetch("http://localhost:3000/videos");
+      const allVideos = await apiVideos.json();
+      setVideos(allVideos);
+      formClean(setFormValues);
+      alert("Se ha creado un nuevo video.. FELICITACIONES..!!!!");
+    }
   }
 
   return (
@@ -142,6 +133,7 @@ export default function FormVideo() {
                   name="categoria"
                   value={formValues.categoria}
                   onChange={changeValueInput}
+                  displayEmpty
                   sx={{
                     width: "90%",
                     color: "#fff",
@@ -152,8 +144,8 @@ export default function FormVideo() {
                     <em>Seleccione una categoría</em>
                   </MenuItem>
                   {categorias.map((cat, index) => (
-                    <MenuItem key={index} value={cat}>
-                      {cat}
+                    <MenuItem key={index} value={cat.nombre}>
+                      {cat.nombre}
                     </MenuItem>
                   ))}
                 </Select>
@@ -253,7 +245,7 @@ export default function FormVideo() {
               <Button
                 type="submit"
                 variant="outlined"
-                onClick = {formSubmit}
+                onClick={formSubmit}
                 sx={{
                   width: "180px",
                   padding: "8px",
@@ -270,7 +262,9 @@ export default function FormVideo() {
                 GUARDAR
               </Button>
               <Button
-                onClick={formClean}
+                onClick={() => {
+                  formClean(setFormValues);
+                }}
                 type="reset"
                 variant="outlined"
                 sx={{

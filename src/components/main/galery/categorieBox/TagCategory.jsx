@@ -27,7 +27,7 @@ export default function TagCategorie({ categoria }) {
   return (
     <>
       <Tag style={{ backgroundColor: `${categoria.color}` }}>
-        <h2>{categoria.categoria}</h2>
+        <h2>{categoria.nombre}</h2>
       </Tag>
     </>
   );

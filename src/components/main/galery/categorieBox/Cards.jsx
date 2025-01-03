@@ -86,7 +86,7 @@ export default function Card(props) {
           </button>
           <button 
             aria-label="Editar video"
-            onClick={()=>{setVideoCardEdit(true)}}>
+            onClick={()=>{setVideoCardEdit(video)}}>
             <img src="/icon-update.png" alt="Editar" /> Editar
           </button>
         </CardIconsBox>
