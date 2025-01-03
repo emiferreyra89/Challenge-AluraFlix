@@ -1,6 +1,7 @@
 /* eslint-disable react/prop-types */
 import styled from "styled-components";
 import { useData } from "../../../../context/DataContext";
+import { Link } from "@mui/material";
 
 const CardContainer = styled.article`
   width: 440px;
@@ -70,13 +71,15 @@ const CardIconsBox = styled.div`
 `;
 
 export default function Card(props) {
-  const {video, categoria} = props.data;
-  const {deleteCards, setVideoCardEdit} = useData();
+  const { video, categoria } = props.data;
+  const { deleteCards, setVideoCardEdit } = useData();
   return (
     <>
       <CardContainer class="card">
         <figure>
-          <img src={`${video.imagen}`} alt={`${video.titulo}`} />
+          <Link href={`${video.video}`}target="_blank" rel="noopener noreferrer">
+            <img src={`${video.imagen}`} alt={`${video.titulo}`} />
+          </Link>
         </figure>
         <CardIconsBox style={{ borderColor: `${categoria.color}` }}>
           <button
@@ -84,9 +87,11 @@ export default function Card(props) {
             onClick={() => deleteCards(video.id)}>
             <img src="/icon-delete.png" alt="Borrar" /> Borrar
           </button>
-          <button 
+          <button
             aria-label="Editar video"
-            onClick={()=>{setVideoCardEdit(video)}}>
+            onClick={() => {
+              setVideoCardEdit(video);
+            }}>
             <img src="/icon-update.png" alt="Editar" /> Editar
           </button>
         </CardIconsBox>
