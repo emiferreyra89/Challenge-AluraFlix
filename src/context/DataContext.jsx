@@ -1,5 +1,4 @@
 import { createContext, useContext, useEffect, useState } from "react";
-//import CardEdit from "../components/main/form/CardEdit";
 
 const DataContext = createContext();
 
@@ -39,7 +38,13 @@ export const DataProvider = ({ children }) => {
   }
 
   async function deleteCards(id) {
-    if (confirm("Deseas eliminar la tarjeta..???")) {
+    const userConfirmed = confirm("¿Deseas eliminar la tarjeta?");
+
+    if (!userConfirmed) {
+      return; 
+    }
+
+    try {
       const response = await fetch(`http://localhost:3000/videos/${id}`, {
         method: "DELETE",
       });
@@ -49,8 +54,10 @@ export const DataProvider = ({ children }) => {
           prevVideos.filter((video) => video.id !== id)
         );
       } else {
-        console.error("Error al eliminar el video:", response.status);
+        throw new Error("Error al eliminar el video:",response.status);
       }
+    } catch (error) {
+      console.error(error);
     }
   }
 
