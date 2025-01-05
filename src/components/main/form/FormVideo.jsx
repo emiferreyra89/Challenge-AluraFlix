@@ -8,8 +8,9 @@ import {
   Select,
   MenuItem,
   InputLabel,
-  FormControl,
+  FormControl
 } from "@mui/material";
+import { ToastContainer, toast } from "react-toastify";
 import { useState } from "react";
 import { useData } from "../../../context/DataContext";
 
@@ -38,7 +39,15 @@ const Form = styled.form`
 `;
 
 export default function FormVideo() {
-  const { categorias, setVideos, formClean } = useData();
+  const {
+    categorias,
+    setVideos,
+    formClean,
+    checkFormErrors,
+    validationBlur,
+    changeValueInput,
+    changeFileInput,
+  } = useData();
   const [formValues, setFormValues] = useState({
     titulo: "",
     categoria: "",
@@ -46,36 +55,48 @@ export default function FormVideo() {
     video: "",
     descripcion: "",
   });
-
-  function changeValueInput(event) {
-    const { name, value } = event.target;
-    setFormValues({ ...formValues, [name]: value });
-  }
-
-  function changeFileInput(event) {
-    const file = event.target.files[0];
-    if (file) {
-      setFormValues({ ...formValues, imagen: file.name });
-    }
-  }
+  const [formErrors, setFormErrors] = useState({
+    titulo: "",
+    categoria: "",
+    imagen: "",
+    video: "",
+    descripcion: "",
+  });
 
   async function formSubmit(event) {
     event.preventDefault();
-    const {imagen} = formValues
-    formValues.imagen = `/img/${imagen}`
+    const errors = checkFormErrors(formValues);
+    setFormErrors(errors);
 
-    const response = await fetch("http://localhost:3000/videos", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(formValues),
-    });
+    if (Object.keys(errors).length > 0) {
+      toast.error("Error al procesar la solicitud, no se ha podido crear el nuevo registro.", {theme:"dark"})
+      return;
+    }
 
-    if (response.ok) {
+    const { imagen } = formValues;
+    formValues.imagen = `/img/${imagen}`;
+
+    try {
+      const response = await fetch("http://localhost:3000/videos", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formValues),
+      });
+
+      if (!response.ok) {
+        throw new Error("Error al guardar el video.");
+      }
+
       const apiVideos = await fetch("http://localhost:3000/videos");
       const allVideos = await apiVideos.json();
       setVideos(allVideos);
       formClean(setFormValues);
-      alert("Se ha creado un nuevo video.. FELICITACIONES..!!!!");
+      toast.success("Se ha creado un nuevo video.. FELICITACIONES..!!!!", {theme:"colored"})
+    } catch (error) {
+      console.error(error.message);
+      alert(
+        "Error al procesar la solicitud, no se ha podido crear el nuevo registro."
+      );
     }
   }
 
@@ -102,6 +123,12 @@ export default function FormVideo() {
             COMPLETE EL FORMULARIO PARA CREAR UNA NUEVA TARJETA DE VIDEO
           </Typography>
           <TitleCrearTarjeta>Crear Tarjeta</TitleCrearTarjeta>
+          <ToastContainer 
+            position="top-center"
+            autoClose="3000"
+            closeOnClick={true}
+            style={{fontSize:"24px", textAlign:"center" }}
+          />
           <Form>
             {/* Título */}
             <Box
@@ -118,14 +145,35 @@ export default function FormVideo() {
                 variant="outlined"
                 placeholder="Ingrese el título"
                 name="titulo"
-                value={formValues.titulo}
-                onChange={changeValueInput}
                 InputLabel="Titulo"
+                value={formValues.titulo}
+                onChange={(e) => {
+                  changeValueInput(e, formValues, setFormValues);
+                }}
+                onBlur={(e) => {
+                  validationBlur(e, formErrors, setFormErrors);
+                }}
+                error={Boolean(formErrors.titulo)}
+                helperText={
+                  formErrors.titulo
+                    ? formErrors.titulo // Muestra el mensaje de error si existe
+                    : formValues.titulo.trim() // Si el campo tiene un valor válido
+                    ? "Correcto"
+                    : "" // Si el campo está vacío
+                }
                 sx={{
                   width: "90%",
                   input: { color: "#fff" },
                   label: { color: "#999" },
                   fieldset: { borderColor: "#666", borderRadius: "10px" },
+                  "& .MuiFormHelperText-root": {
+                    fontStyle: "italic",
+                    color: formErrors.titulo
+                      ? "red" // Color rojo para mensajes de error
+                      : formValues.titulo.trim()
+                      ? "green" // Color verde para la leyenda "CORRECTO"
+                      : "inherit", // Color por defecto si no hay texto
+                  },
                 }}
               />
             </Box>
@@ -138,11 +186,20 @@ export default function FormVideo() {
                 marginTop: "30px",
               }}>
               <InputLabel sx={{ color: "#fff" }}>Categoría</InputLabel>
-              <FormControl fullWidth margin="normal" variant="outlined">
+              <FormControl
+                fullWidth
+                margin="normal"
+                variant="outlined"
+                error={Boolean(formErrors.categoria)}>
                 <Select
                   name="categoria"
                   value={formValues.categoria}
-                  onChange={changeValueInput}
+                  onChange={(e) => {
+                    changeValueInput(e, formValues, setFormValues);
+                  }}
+                  onBlur={(e) => {
+                    validationBlur(e, formErrors, setFormErrors);
+                  }}
                   displayEmpty
                   sx={{
                     width: "90%",
@@ -159,6 +216,33 @@ export default function FormVideo() {
                     </MenuItem>
                   ))}
                 </Select>
+                {formErrors.categoria ? (
+                  <>
+                    <Typography
+                      sx={{
+                        color: "red",
+                        marginTop: "5px",
+                        fontStyle: "italic",
+                        fontSize: "12px",
+                      }}>
+                      {formErrors.categoria}
+                    </Typography>
+                  </>
+                ) : formValues.categoria.trim() ? (
+                  <>
+                    <Typography
+                      sx={{
+                        color: "green",
+                        marginTop: "5px",
+                        fontStyle: "italic",
+                        fontSize: "12px",
+                      }}>
+                      {"Correcto"}
+                    </Typography>
+                  </>
+                ) : (
+                  ""
+                )}
               </FormControl>
             </Box>
             {/* Imagen */}
@@ -177,24 +261,45 @@ export default function FormVideo() {
                 placeholder="Ingrese la imagen del video"
                 name="imagen"
                 value={formValues.imagen}
-                onChange={changeValueInput}
+                onChange={(e) => {
+                  changeValueInput(e, formValues, setFormValues);
+                }}
+                onBlur={(e) => {
+                  validationBlur(e, formErrors, setFormErrors);
+                }}
+                error={formErrors.imagen}
                 InputProps={{
                   readOnly: true,
                 }}
-                error=""
-                helperText=""
+                helperText={
+                  formErrors.imagen
+                    ? formErrors.imagen // Muestra el mensaje de error si existe
+                    : formValues.imagen.trim() // Si el campo tiene un valor válido
+                    ? "Correcto"
+                    : "" // Si el campo está vacío
+                }
                 sx={{
                   width: "90%",
                   input: { color: "#fff" },
                   label: { color: "#999" },
                   fieldset: { borderColor: "#666", borderRadius: "10px" },
+                  "& .MuiFormHelperText-root": {
+                    fontStyle: "italic",
+                    color: formErrors.imagen
+                      ? "red" // Color rojo para mensajes de error
+                      : formValues.imagen.trim()
+                      ? "green" // Color verde para la leyenda "CORRECTO"
+                      : "inherit", // Color por defecto si no hay texto
+                  },
                 }}
               />
               <input
                 type="file"
                 accept="image/*"
-                onChange={changeFileInput}
-                style={{ color: "#666" }}
+                onChange={(e) => {
+                  changeFileInput(e, formValues, setFormValues);
+                }}
+                style={{ color: "#666", width: "90%" }}
               />
             </Box>
             {/* Video */}
@@ -213,12 +318,33 @@ export default function FormVideo() {
                 placeholder="Ingrese el enlace del video"
                 name="video"
                 value={formValues.video}
-                onChange={changeValueInput}
+                onChange={(e) => {
+                  changeValueInput(e, formValues, setFormValues);
+                }}
+                onBlur={(e) => {
+                  validationBlur(e, formErrors, setFormErrors);
+                }}
+                error={formErrors.video}
+                helperText={
+                  formErrors.video
+                    ? formErrors.video // Muestra el mensaje de error si existe
+                    : formValues.video.trim() // Si el campo tiene un valor válido
+                    ? "Correcto"
+                    : "" // Si el campo está vacío
+                }
                 sx={{
                   width: "90%",
                   input: { color: "#fff" },
                   label: { color: "#999" },
                   fieldset: { borderColor: "#666", borderRadius: "10px" },
+                  "& .MuiFormHelperText-root": {
+                    fontStyle: "italic",
+                    color: formErrors.video
+                      ? "red" // Color rojo para mensajes de error
+                      : formValues.video.trim()
+                      ? "green" // Color verde para la leyenda "CORRECTO"
+                      : "inherit", // Color por defecto si no hay texto
+                  },
                 }}
               />
             </Box>
@@ -238,14 +364,36 @@ export default function FormVideo() {
                 placeholder="¿De qué se trata este video?"
                 name="descripcion"
                 value={formValues.descripcion}
-                onChange={changeValueInput}
+                onChange={(e) => {
+                  changeValueInput(e, formValues, setFormValues);
+                }}
+                onBlur={(e) => {
+                  validationBlur(e, formErrors, setFormErrors);
+                }}
+                error={formErrors.descripcion}
                 multiline
                 rows={4}
+                helperText={
+                  formErrors.descripcion
+                    ? formErrors.descripcion // Muestra el mensaje de error si existe
+                    : formValues.descripcion.trim() // Si el campo tiene un valor válido
+                    ? "Correcto"
+                    : "" // Si el campo está vacío
+                }
                 sx={{
                   width: "90%",
+                  input: { color: "#fff" },
                   textarea: { color: "#fff" },
                   label: { color: "#999" },
                   fieldset: { borderColor: "#666", borderRadius: "10px" },
+                  "& .MuiFormHelperText-root": {
+                    fontStyle: "italic",
+                    color: formErrors.descripcion
+                      ? "red" // Color rojo para mensajes de error
+                      : formValues.descripcion.trim()
+                      ? "green" // Color verde para la leyenda "CORRECTO"
+                      : "inherit", // Color por defecto si no hay texto
+                  },
                 }}
               />
             </Box>

@@ -26,6 +26,18 @@ export const DataProvider = ({ children }) => {
     conectionData();
   }, []);
 
+  function changeValueInput(event, objValues, setValues) {
+    const { name, value } = event.target;
+    setValues({ ...objValues, [name]: value });
+  }
+
+  function changeFileInput(event, objValues, setObjValues) {
+    const file = event.target.files[0];
+    if (file) {
+      setObjValues({ ...objValues, imagen: file.name });
+    }
+  }
+
   async function deleteCards(id) {
     if (confirm("Deseas eliminar la tarjeta..???")) {
       const response = await fetch(`http://localhost:3000/videos/${id}`, {
@@ -42,14 +54,40 @@ export const DataProvider = ({ children }) => {
     }
   }
 
-  function formClean(setParams) {
-    setParams({
+  function formClean(setparams) {
+    setparams({
       titulo: "",
       categoria: "",
       imagen: "",
       video: "",
       descripcion: "",
     });
+  }
+
+  function checkFormErrors(objFormValues) {
+    const errors = {};
+
+    if (!objFormValues.titulo.trim()) errors.titulo = "El título es obligatorio.";  
+    if (!objFormValues.categoria.trim()) errors.categoria = "Seleccione una categoría.";
+    if (!objFormValues.imagen.trim()) errors.imagen = "Debe proporcionar una imagen.";
+    if (!objFormValues.video.trim()) errors.video = "Debe ingresar un enlace de video.";
+    if (!objFormValues.descripcion.trim()) errors.descripcion = "La descripción no puede estar vacía.";
+    
+    return errors
+  }
+
+  function validationBlur(event, objErrors, setObjErrors) {
+    const { name, value } = event.target;
+    const errorMessages = { ...objErrors };
+
+    // Validar el campo individual
+    if (!value.trim()) {
+      errorMessages[name] = `Debes completar el campo ${name}.`;
+    } else {
+      delete errorMessages[name]; // Elimina el error si el campo es válido
+    }
+
+    setObjErrors(errorMessages); // Actualiza los errores
   }
 
   return (
@@ -62,6 +100,10 @@ export const DataProvider = ({ children }) => {
         setVideoCardEdit,
         deleteCards,
         formClean,
+        checkFormErrors,
+        validationBlur,
+        changeValueInput,
+        changeFileInput
       }}>
       {children}
     </DataContext.Provider>
